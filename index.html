@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Laura · 50 · 10 de mayo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+
+/* ============================================
+   VARIABLES — Paleta B&N con detalles plata
+   ============================================ */
+:root {
+  --black:      #0E0E0E;
+  --dark:       #1A1A1A;
+  --charcoal:   #2C2C2C;
+  --mid:        #555555;
+  --light-mid:  #888888;
+  --offwhite:   #F2F2F0;
+  --white:      #FAFAFA;
+  --silver:     #C8C8C8;
+  --silver-lt:  #E2E2E0;
+  --silver-dk:  #9A9A9A;
+
+  --border-lt:  rgba(255,255,255,0.09);
+  --border-dk:  rgba(0,0,0,0.10);
+
+  --script: 'Cormorant Garamond', Georgia, serif;
+  --sans:   'DM Sans', Helvetica, sans-serif;
+  --radius: 1px;
+  --max:    680px;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--offwhite);
+  color: var(--dark);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   SCROLL PROGRESS
+   ============================================ */
+#progress {
+  position: fixed; top: 0; left: 0;
+  width: 0%; height: 2px;
+  background: linear-gradient(to right, var(--silver-dk), var(--silver-lt));
+  z-index: 999;
+  transition: width 0.1s linear;
+}
+
+/* ============================================
+   UTILIDADES
+   ============================================ */
+.container { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+.divider {
+  width: 40px; height: 1px;
+  background: var(--silver);
+  margin: 28px auto;
+  opacity: 0.5;
+}
+.divider.dark { background: var(--charcoal); opacity: 0.3; }
+
+.section-tag {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--silver-dk);
+  margin-bottom: 20px;
+  display: block;
+}
+.section-tag.light { color: var(--silver); opacity: 0.55; }
+
+.section-title {
+  font-family: var(--script);
+  font-size: clamp(36px, 9vw, 56px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--dark);
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+.section-title.light { color: var(--white); }
+
+.section-body {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.8;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.section-body.light { color: rgba(250,250,250,0.55); }
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.85s ease, transform 0.85s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.32s; }
+.reveal-delay-4 { transition-delay: 0.44s; }
+
+/* ============================================
+   1. HERO
+   ============================================ */
+#hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 28px 64px;
+  overflow: hidden;
+  background: var(--black);
+}
+
+/* Grano sutil */
+#hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.055;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Halo plata central */
+#hero::after {
+  content: '';
+  position: absolute;
+  width: 560px; height: 560px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,200,200,0.10) 0%, transparent 68%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -52%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Línea decorativa horizontal */
+.hero-rule {
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(200,200,200,0.12), transparent);
+  z-index: 1;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--silver-dk);
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: fadeUp 1s 0.25s forwards;
+}
+
+/* EDITAR: nombre si cambia */
+.hero-name {
+  font-family: var(--script);
+  font-size: clamp(72px, 19vw, 140px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1;
+  color: var(--white);
+  letter-spacing: -0.015em;
+  opacity: 0;
+  animation: fadeUp 1.1s 0.45s forwards;
+}
+
+.hero-fifty {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  opacity: 0;
+  animation: fadeUp 1s 0.7s forwards;
+}
+.hero-fifty-line {
+  width: 32px; height: 1px;
+  background: var(--silver-dk);
+  opacity: 0.5;
+}
+.hero-fifty-text {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--silver-dk);
+}
+
+.hero-date {
+  margin-top: 48px;
+  font-family: var(--script);
+  font-size: clamp(17px, 4vw, 24px);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(250,250,250,0.45);
+  opacity: 0;
+  animation: fadeUp 1s 0.9s forwards;
+  letter-spacing: 0.04em;
+}
+
+.hero-vline {
+  width: 1px; height: 52px;
+  background: linear-gradient(to bottom, rgba(200,200,200,0.35), transparent);
+  margin: 44px auto 0;
+  opacity: 0;
+  animation: fadeUp 1s 1.05s forwards;
+}
+
+.hero-scroll {
+  margin-top: 10px;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.22);
+  opacity: 0;
+  animation: fadeUp 1s 1.2s forwards;
+  cursor: pointer;
+  transition: color 0.3s;
+  text-decoration: none;
+  display: block;
+}
+.hero-scroll:hover { color: var(--silver); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   2. SECCIÓN EMOTIVA (fondo blanco / claro)
+   ============================================ */
+#emocional {
+  background: var(--white);
+  padding: 100px 0 96px;
+  text-align: center;
+}
+
+.emocional-lead {
+  font-family: var(--script);
+  font-size: clamp(28px, 7vw, 44px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--dark);
+  line-height: 1.3;
+  max-width: 520px;
+  margin: 0 auto 40px;
+}
+
+.emocional-body {
+  font-size: clamp(15px, 3.5vw, 16.5px);
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.88;
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: left;
+}
+.emocional-body p + p { margin-top: 22px; }
+
+/* Bloque quote */
+.quote-block {
+  border-left: 1px solid var(--silver-dk);
+  padding: 18px 28px;
+  margin: 52px auto;
+  max-width: 460px;
+  text-align: left;
+  background: rgba(0,0,0,0.02);
+}
+.quote-block p {
+  font-family: var(--script);
+  font-size: clamp(21px, 5vw, 29px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--dark);
+  line-height: 1.5;
+}
+
+/* Dress code badge */
+.dresscode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--dark);
+  padding: 12px 24px 12px 18px;
+  border-radius: var(--radius);
+  margin-top: 52px;
+}
+.dresscode-swatch {
+  display: flex; gap: 6px;
+}
+.swatch-b {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--black);
+  border: 1px solid rgba(0,0,0,0.15);
+}
+.swatch-w {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.18);
+}
+.dresscode-text {
+  text-align: left;
+}
+.dresscode-label {
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--light-mid);
+  display: block;
+  margin-bottom: 2px;
+}
+.dresscode-value {
+  font-family: var(--script);
+  font-size: 20px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--dark);
+  line-height: 1;
+}
+
+/* ============================================
+   3. DETALLES DEL EVENTO (fondo negro)
+   ============================================ */
+#evento {
+  background: var(--black);
+  padding: 96px 0;
+  color: var(--white);
+  text-align: center;
+}
+
+.evento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-lt);
+  border: 1px solid var(--border-lt);
+  max-width: 520px;
+  margin: 48px auto 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.evento-item {
+  background: rgba(255,255,255,0.03);
+  padding: 28px 22px;
+  text-align: left;
+  transition: background 0.3s;
+}
+.evento-item:hover { background: rgba(255,255,255,0.055); }
+.evento-item:nth-child(odd)  { border-right: 1px solid var(--border-lt); }
+.evento-item:nth-child(1),
+.evento-item:nth-child(2)    { border-bottom: 1px solid var(--border-lt); }
+
+.evento-label {
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--silver-dk);
+  opacity: 0.55;
+  margin-bottom: 9px;
+}
+.evento-value {
+  font-family: var(--script);
+  font-size: clamp(19px, 4.5vw, 25px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.3;
+}
+.evento-sub {
+  font-size: 12px;
+  color: rgba(250,250,250,0.32);
+  margin-top: 4px;
+  font-weight: 300;
+}
+
+.evento-full { grid-column: 1 / -1; }
+
+.btn-map {
+  display: inline-block;
+  margin-top: 40px;
+  padding: 13px 34px;
+  border: 1px solid rgba(200,200,200,0.3);
+  color: var(--silver);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
+  background: transparent;
+}
+.btn-map:hover {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--white);
+}
+
+/* ============================================
+   4. REGALOS (fondo claro)
+   ============================================ */
+#regalos {
+  background: var(--offwhite);
+  padding: 96px 0;
+  text-align: center;
+}
+
+.regalos-box {
+  background: var(--white);
+  border: 1px solid var(--border-dk);
+  border-radius: var(--radius);
+  padding: 40px 30px;
+  max-width: 480px;
+  margin: 44px auto 0;
+  text-align: left;
+}
+
+.regalo-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+.regalo-row:last-child { border-bottom: none; }
+
+.regalo-icon {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.04);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+  color: var(--mid);
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.regalo-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--light-mid);
+  margin-bottom: 5px;
+}
+.regalo-value {
+  font-family: var(--script);
+  font-size: 20px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--dark);
+}
+.regalo-alias {
+  font-size: 15px;
+  color: var(--dark);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+.regalo-link {
+  font-family: var(--script);
+  font-size: 20px;
+  font-style: italic;
+  color: var(--dark);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--silver);
+  transition: text-decoration-color 0.3s;
+}
+.regalo-link:hover { text-decoration-color: var(--dark); }
+
+.regalos-note {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--light-mid);
+  font-style: italic;
+  margin-top: 28px;
+  text-align: center;
+  line-height: 1.65;
+}
+
+/* ============================================
+   5. MENSAJES (fondo negro)
+   ============================================ */
+#mensajes {
+  background: var(--dark);
+  padding: 96px 0;
+  text-align: center;
+  color: var(--white);
+}
+
+#mensajes .section-title { color: var(--white); }
+
+.mensajes-intro {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(250,250,250,0.45);
+  max-width: 400px;
+  margin: 0 auto 52px;
+  line-height: 1.8;
+}
+
+.mensajes-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 540px;
+  margin: 0 auto 48px;
+  text-align: left;
+}
+
+.msg-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-lt);
+  border-radius: var(--radius);
+  padding: 26px 24px 22px;
+  position: relative;
+  transition: background 0.3s;
+}
+.msg-card:hover { background: rgba(255,255,255,0.065); }
+
+.msg-card::before {
+  content: '"';
+  font-family: var(--script);
+  font-size: 72px;
+  line-height: 1;
+  color: var(--silver);
+  opacity: 0.1;
+  position: absolute;
+  top: 8px; left: 14px;
+  pointer-events: none;
+}
+
+.msg-text {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(250,250,250,0.8);
+  line-height: 1.78;
+  padding-top: 6px;
+}
+.msg-autor {
+  margin-top: 14px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--silver-dk);
+  opacity: 0.5;
+}
+
+/* Formulario mensajes */
+.msg-form {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-lt);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  max-width: 540px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.form-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--silver-dk);
+  opacity: 0.5;
+  margin-bottom: 9px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: var(--radius);
+  padding: 13px 16px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--white);
+  outline: none;
+  transition: border-color 0.3s;
+  -webkit-appearance: none;
+}
+.form-input::placeholder,
+.form-textarea::placeholder { color: rgba(250,250,250,0.22); }
+.form-input:focus,
+.form-textarea:focus { border-color: var(--silver-dk); }
+
+.form-textarea { resize: vertical; min-height: 110px; line-height: 1.65; }
+.form-group { margin-bottom: 20px; }
+
+.btn-submit {
+  width: 100%;
+  padding: 15px;
+  background: var(--white);
+  color: var(--black);
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, transform 0.15s;
+  margin-top: 8px;
+}
+.btn-submit:hover { background: var(--silver-lt); }
+.btn-submit:active { transform: scale(0.99); }
+
+.form-note {
+  font-size: 11px;
+  color: rgba(250,250,250,0.22);
+  text-align: center;
+  margin-top: 16px;
+  line-height: 1.65;
+}
+
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 28px 0 8px;
+}
+.form-success .icon { font-size: 32px; margin-bottom: 14px; display: block; }
+.form-success h4 {
+  font-family: var(--script);
+  font-size: 28px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.form-success p { font-size: 14px; color: rgba(250,250,250,0.45); }
+
+/* ============================================
+   6. RSVP (fondo blanco)
+   ============================================ */
+#rsvp {
+  background: var(--white);
+  padding: 96px 0;
+  text-align: center;
+}
+
+.rsvp-form {
+  background: var(--offwhite);
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.rsvp-form .form-label { color: var(--light-mid); opacity: 1; }
+.rsvp-form .form-input,
+.rsvp-form .form-textarea {
+  background: var(--white);
+  border-color: rgba(0,0,0,0.12);
+  color: var(--dark);
+}
+.rsvp-form .form-input::placeholder,
+.rsvp-form .form-textarea::placeholder { color: rgba(0,0,0,0.3); }
+.rsvp-form .form-input:focus,
+.rsvp-form .form-textarea:focus { border-color: var(--dark); }
+.rsvp-form .btn-submit { background: var(--black); color: var(--white); }
+.rsvp-form .btn-submit:hover { background: var(--charcoal); }
+.rsvp-form .form-note { color: var(--light-mid); opacity: 0.7; }
+
+.rsvp-success {
+  display: none;
+  text-align: center;
+  padding: 24px 0;
+}
+.rsvp-success .icon { font-size: 36px; margin-bottom: 14px; display: block; }
+.rsvp-success h4 {
+  font-family: var(--script);
+  font-size: 30px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+.rsvp-success p { font-size: 14px; color: var(--light-mid); }
+
+/* ============================================
+   7. CIERRE (fondo negro)
+   ============================================ */
+#cierre {
+  background: var(--black);
+  padding: 110px 0 0;
+  text-align: center;
+  color: var(--white);
+  overflow: hidden;
+  position: relative;
+}
+
+/* gran número decorativo de fondo */
+#cierre::before {
+  content: '50';
+  font-family: var(--script);
+  font-size: clamp(200px, 50vw, 360px);
+  font-weight: 600;
+  font-style: italic;
+  color: rgba(255,255,255,0.03);
+  position: absolute;
+  bottom: 80px; left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.cierre-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.cierre-title {
+  font-family: var(--script);
+  font-size: clamp(46px, 12vw, 82px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 30px;
+}
+
+.cierre-body {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(250,250,250,0.48);
+  line-height: 1.85;
+  margin-bottom: 52px;
+}
+
+.cierre-date {
+  font-family: var(--script);
+  font-size: clamp(20px, 5vw, 28px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--silver);
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+
+.cierre-place {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.25);
+  margin-bottom: 72px;
+}
+
+/* Franja final dress code */
+.footer-dc {
+  background: var(--white);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+.footer-dc-swatches {
+  display: flex; gap: 6px; align-items: center;
+}
+.footer-swatch-b {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--black);
+}
+.footer-swatch-w {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.2);
+}
+.footer-dc-text {
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--dark);
+}
+
+footer.footer {
+  background: var(--dark);
+  padding: 22px 24px;
+  text-align: center;
+}
+footer.footer p {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: rgba(250,250,250,0.18);
+  text-transform: uppercase;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 480px) {
+  .evento-grid { grid-template-columns: 1fr; }
+  .evento-item:nth-child(odd) { border-right: none; }
+  .evento-item:not(:last-child) { border-bottom: 1px solid var(--border-lt); }
+  .regalos-box { padding: 32px 22px; }
+  .msg-form, .rsvp-form { padding: 30px 20px; }
+}
+@media (min-width: 768px) {
+  .container { padding: 0 48px; }
+  .msg-form, .rsvp-form { padding: 44px 40px; }
+}
+
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- =========================================
+     1. HERO
+     ========================================= -->
+<section id="hero">
+  <div class="hero-rule"></div>
+  <div class="hero-inner">
+
+    <p class="hero-eyebrow">10 de mayo · 2025 · Buenos Aires</p>
+
+    <!-- EDITAR: nombre -->
+    <h1 class="hero-name">Laura</h1>
+
+    <div class="hero-fifty">
+      <span class="hero-fifty-line"></span>
+      <span class="hero-fifty-text">cincuenta años</span>
+      <span class="hero-fifty-line"></span>
+    </div>
+
+    <p class="hero-date">una noche que no nos la perdemos</p>
+
+    <div class="hero-vline"></div>
+    <a class="hero-scroll" href="#emocional">↓</a>
+
+  </div>
+</section>
+
+<!-- =========================================
+     2. SECCIÓN EMOTIVA
+     ========================================= -->
+<section id="emocional">
+  <div class="container" style="text-align:center;">
+
+    <span class="section-tag reveal">de Laura, para vos</span>
+
+    <p class="emocional-lead reveal reveal-delay-1">
+      Mirá dónde llegué.
+    </p>
+
+    <div class="emocional-body reveal reveal-delay-2">
+      <p>
+        Llegué a los cincuenta. Y lo digo con orgullo, sin drama, sin filtros. Los llegué con todo lo que eso significa: las cosas que aprendí a las malas, las que salieron mejor de lo que esperaba, las personas que se quedaron y las que se fueron —también por esas doy gracias.
+      </p>
+      <p>
+        Vine de Daireaux siendo una piba con las ganas de comerse el mundo, y Buenos Aires me fue formando de a poco, sin que me diera cuenta. Pero lo que más me formó fue la gente. Vos que estás leyendo esto, en algún momento, de alguna manera, me dejaste algo.
+      </p>
+      <p>
+        Así que esta noche no es solo un cumpleaños. Es una excusa perfecta para juntarnos, mirarnos a la cara y decir: acá estamos, llegamos acá, y qué bien que estamos.
+      </p>
+    </div>
+
+    <div class="quote-block reveal reveal-delay-3">
+      <p>"Cincuenta años no pesan.<br>Pesan si los cargás sola.<br>Yo no los cargué sola."</p>
+    </div>
+
+    <!-- Dress code badge -->
+    <div class="dresscode-badge reveal reveal-delay-4">
+      <div class="dresscode-swatch">
+        <div class="swatch-b"></div>
+        <div class="swatch-w"></div>
+      </div>
+      <div class="dresscode-text">
+        <span class="dresscode-label">Dress code · temática</span>
+        <span class="dresscode-value">Blanco &amp; negro</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =========================================
+     3. DETALLES DEL EVENTO
+     ========================================= -->
+<section id="evento">
+  <div class="container">
+
+    <span class="section-tag light reveal">la noche</span>
+    <h2 class="section-title light reveal reveal-delay-1">El encuentro</h2>
+    <p class="section-body light reveal reveal-delay-2">Todo lo que necesitás saber para estar ahí.</p>
+
+    <div class="divider reveal reveal-delay-3" style="background:rgba(200,200,200,0.25);"></div>
+
+    <div class="evento-grid reveal reveal-delay-3">
+
+      <div class="evento-item">
+        <p class="evento-label">Fecha</p>
+        <!-- EDITAR: fecha -->
+        <p class="evento-value">10 de mayo</p>
+        <p class="evento-sub">sábado · 2025</p>
+      </div>
+
+      <div class="evento-item">
+        <p class="evento-label">Hora</p>
+        <!-- EDITAR: hora -->
+        <p class="evento-value">21:00 hs</p>
+        <p class="evento-sub">en punto, che</p>
+      </div>
+
+      <div class="evento-item">
+        <p class="evento-label">Lugar</p>
+        <p class="evento-value">Hormiga Negra</p>
+        <p class="evento-sub">Belgrano · CABA</p>
+      </div>
+
+      <div class="evento-item">
+        <p class="evento-label">Dirección</p>
+        <!-- EDITAR: dirección -->
+        <p class="evento-value" style="font-size:18px; font-style:normal; font-family:var(--sans); font-weight:300;">Amenábar 2363</p>
+        <p class="evento-sub">Ciudad de Buenos Aires</p>
+      </div>
+
+    </div>
+
+    <!-- Link Google Maps real -->
+    <a href="https://maps.app.goo.gl/qBuHyZYfFTNb4UeD7"
+       class="btn-map reveal reveal-delay-4"
+       target="_blank" rel="noopener">
+      Ver en el mapa →
+    </a>
+
+  </div>
+</section>
+
+<!-- =========================================
+     4. REGALOS
+     ========================================= -->
+<section id="regalos">
+  <div class="container">
+
+    <span class="section-tag reveal">si se te ocurre algo</span>
+    <h2 class="section-title reveal reveal-delay-1">Regalos</h2>
+    <p class="section-body reveal reveal-delay-2">
+      Con que vengas ya me alcanza y me sobra.<br>
+      Pero si querés sumar un detalle, acá va:
+    </p>
+
+    <div class="regalos-box reveal reveal-delay-3">
+
+      <div class="regalo-row">
+        <div class="regalo-icon">♡</div>
+        <div>
+          <p class="regalo-label">Lista de regalos</p>
+          <!-- EDITAR: link a lista de regalos -->
+          <a href="#" class="regalo-link">Ver lista →</a>
+        </div>
+      </div>
+
+      <div class="regalo-row">
+        <div class="regalo-icon">$</div>
+        <div>
+          <p class="regalo-label">Alias Mercado Pago</p>
+          <!-- EDITAR: alias o CBU -->
+          <p class="regalo-alias">[alias.laura]</p>
+        </div>
+      </div>
+
+      <div class="regalo-row">
+        <div class="regalo-icon">✦</div>
+        <div>
+          <p class="regalo-label">¿No se te ocurre nada?</p>
+          <p style="font-size:14px; color:var(--mid); line-height:1.7; font-weight:300;">
+            Una carta. Un mensaje escrito a mano.<br>
+            Esas cosas las guardo toda la vida.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="regalos-note reveal reveal-delay-4">
+      De verdad: no hace falta nada. Con vos ya está todo.
+    </p>
+
+  </div>
+</section>
+
+<!-- =========================================
+     5. MENSAJES / RECUERDOS
+     ========================================= -->
+<section id="mensajes">
+  <div class="container">
+
+    <span class="section-tag light reveal">para Laura</span>
+    <h2 class="section-title reveal reveal-delay-1">Dejale algo</h2>
+    <p class="mensajes-intro reveal reveal-delay-2">
+      Un recuerdo, algo que siempre quisiste decirle,<br>
+      una anécdota que las dos saben bien.<br>
+      Este es el lugar.
+    </p>
+
+    <!-- Mensajes de ejemplo -->
+    <div class="mensajes-feed reveal reveal-delay-2">
+      <div class="msg-card">
+        <p class="msg-text">Te conocí hace más de veinte años y todavía me sorprendés con algo nuevo. Eso no lo tiene cualquiera.</p>
+        <p class="msg-autor">— Romi</p>
+      </div>
+      <div class="msg-card">
+        <p class="msg-text">Gracias por ser de las que están cuando están y te lo dicen de frente. Eso vale oro.</p>
+        <p class="msg-autor">— Martín y Sofi</p>
+      </div>
+      <div class="msg-card">
+        <p class="msg-text">Que los próximos cincuenta sean tan vivos y tan vos como los primeros.</p>
+        <p class="msg-autor">— La familia</p>
+      </div>
+    </div>
+
+    <!-- Formulario -->
+    <div class="msg-form reveal reveal-delay-3" id="msgFormContainer">
+      <div id="msgFormFields">
+        <div class="form-group">
+          <label class="form-label" for="msg-nombre">Tu nombre</label>
+          <input class="form-input" id="msg-nombre" type="text" placeholder="¿Quién escribe?" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="msg-texto">Tu mensaje</label>
+          <textarea class="form-textarea" id="msg-texto" placeholder="Escribí lo que se te venga…"></textarea>
+        </div>
+        <button class="btn-submit" onclick="enviarMensaje()">Dejar mensaje</button>
+        <!-- EDITAR: conectar con Formspree, Google Forms o Sheets -->
+        <p class="form-note">Los mensajes pueden conectarse a Formspree o Google Forms para que lleguen directo.</p>
+      </div>
+      <div class="form-success" id="msgSuccess">
+        <span class="icon">✦</span>
+        <h4>Gracias por escribir</h4>
+        <p>Le va a llegar. Prometido.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =========================================
+     6. RSVP
+     ========================================= -->
+<section id="rsvp">
+  <div class="container">
+
+    <span class="section-tag reveal">confirmá tu lugar</span>
+    <h2 class="section-title reveal reveal-delay-1">¿Venís?</h2>
+    <p class="section-body reveal reveal-delay-2">
+      Me ayuda saber cuántos somos.<br>
+      <!-- EDITAR: fecha límite de confirmación -->
+      Avisame antes del 5 de mayo, ¿va?
+    </p>
+
+    <div class="divider dark reveal reveal-delay-3"></div>
+
+    <div class="rsvp-form reveal reveal-delay-3" id="rsvpFormContainer">
+      <div id="rsvpFormFields">
+        <div class="form-group">
+          <label class="form-label" for="rsvp-nombre">Nombre</label>
+          <input class="form-input" id="rsvp-nombre" type="text" placeholder="Nombre y apellido" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="rsvp-cantidad">¿Cuántos van?</label>
+          <input class="form-input" id="rsvp-cantidad" type="number" min="1" max="10" placeholder="1" style="max-width:100px;" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="rsvp-nota">¿Algo que quieras aclarar?</label>
+          <textarea class="form-textarea" id="rsvp-nota" placeholder="Llegada tardía, algo que no podés comer, lo que sea." style="min-height:90px;"></textarea>
+        </div>
+        <button class="btn-submit" onclick="enviarRSVP()">Confirmar asistencia</button>
+        <!-- EDITAR: conectar con Google Forms, Airtable, etc. -->
+        <p class="form-note">Puede conectarse a Google Forms o cualquier backend para registrar respuestas.</p>
+      </div>
+      <div class="rsvp-success" id="rsvpSuccess">
+        <span class="icon">✓</span>
+        <h4>¡Nos vemos el 10!</h4>
+        <p>Anotado. Ya te espero.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =========================================
+     7. CIERRE
+     ========================================= -->
+<section id="cierre">
+  <div class="cierre-inner reveal">
+
+    <h2 class="cierre-title">
+      Nos vemos ahí,<br>los espero.
+    </h2>
+
+    <p class="cierre-body reveal reveal-delay-1">
+      Hay noches que después recordás mucho tiempo. Donde te fuiste a dormir pensando que valió cada segundo. Esta va a ser una de esas. Y lo digo yo, que sé cómo festejar.
+    </p>
+
+    <div class="divider reveal reveal-delay-2" style="background:rgba(200,200,200,0.2);"></div>
+
+    <div class="reveal reveal-delay-3">
+      <!-- EDITAR: fecha y lugar en cierre -->
+      <p class="cierre-date">10 de mayo · 2025</p>
+      <p class="cierre-place">Hormiga Negra · Amenábar 2363 · Belgrano · CABA</p>
+    </div>
+
+  </div>
+
+  <!-- Franja dress code -->
+  <div class="footer-dc">
+    <div class="footer-dc-swatches">
+      <div class="footer-swatch-b"></div>
+      <div class="footer-swatch-w"></div>
+    </div>
+    <p class="footer-dc-text">Dress code · temática: blanco &amp; negro</p>
+  </div>
+
+  <footer class="footer">
+    <!-- EDITAR: pie de página -->
+    <p>Con amor · Laura · 50 años · 2025</p>
+  </footer>
+
+</section>
+
+<!-- =========================================
+     JAVASCRIPT
+     ========================================= -->
+<script>
+  /* Scroll progress */
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress');
+    const st = document.documentElement.scrollTop;
+    const sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    el.style.width = ((st / sh) * 100) + '%';
+  });
+
+  /* Reveal on scroll */
+  const revealEls = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.10 });
+  revealEls.forEach(el => obs.observe(el));
+
+  /* Mensajes form */
+  function enviarMensaje() {
+    const nombre = document.getElementById('msg-nombre').value.trim();
+    const texto  = document.getElementById('msg-texto').value.trim();
+    if (!nombre || !texto) { alert('Completá tu nombre y tu mensaje antes de enviar.'); return; }
+    /*
+      EDITAR: agregá fetch() a tu endpoint acá.
+      Ejemplo Formspree:
+      fetch('https://formspree.io/f/TU_ID', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, mensaje: texto })
+      });
+    */
+    document.getElementById('msgFormFields').style.display = 'none';
+    document.getElementById('msgSuccess').style.display = 'block';
+  }
+
+  /* RSVP form */
+  function enviarRSVP() {
+    const nombre = document.getElementById('rsvp-nombre').value.trim();
+    if (!nombre) { alert('Poné tu nombre, ¿va?'); return; }
+    /*
+      EDITAR: agregá fetch() a tu endpoint acá.
+      Ejemplo Google Apps Script, Airtable, etc.
+    */
+    document.getElementById('rsvpFormFields').style.display = 'none';
+    document.getElementById('rsvpSuccess').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
