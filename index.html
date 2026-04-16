@@ -560,6 +560,7 @@ body {
   padding: 96px 0;
   text-align: center;
   color: var(--white);
+  overflow: hidden;
 }
 
 #mensajes .section-title { color: var(--white); }
@@ -573,54 +574,108 @@ body {
   line-height: 1.8;
 }
 
-.mensajes-feed {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  max-width: 540px;
-  margin: 0 auto 48px;
-  text-align: left;
+/* ---- CARRUSEL ---- */
+.carrusel-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 0 auto 52px;
+  /* overflow visible para ver la media tarjeta */
+  overflow: hidden;
 }
 
+.carrusel-track {
+  display: flex;
+  gap: 16px;
+  /* el padding-right hace que se vea la media tarjeta siguiente */
+  padding: 4px 16px 4px 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+  transition: none;
+}
+.carrusel-track:active { cursor: grabbing; }
+.carrusel-track::-webkit-scrollbar { display: none; }
+
 .msg-card {
+  flex: 0 0 calc(80vw);
+  max-width: 380px;
+  min-width: 240px;
+  scroll-snap-align: start;
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--border-lt);
   border-radius: var(--radius);
-  padding: 26px 24px 22px;
+  padding: 30px 26px 24px;
   position: relative;
-  transition: background 0.3s;
+  transition: background 0.3s, opacity 0.3s;
+  text-align: left;
+  user-select: none;
 }
 .msg-card:hover { background: rgba(255,255,255,0.065); }
 
 .msg-card::before {
   content: '"';
   font-family: var(--script);
-  font-size: 72px;
+  font-size: 80px;
   line-height: 1;
   color: var(--silver);
-  opacity: 0.1;
+  opacity: 0.08;
   position: absolute;
-  top: 8px; left: 14px;
+  top: 6px; left: 12px;
   pointer-events: none;
 }
 
 .msg-text {
   font-size: 15px;
   font-weight: 300;
-  color: rgba(250,250,250,0.8);
+  color: rgba(250,250,250,0.82);
   line-height: 1.78;
-  padding-top: 6px;
+  padding-top: 8px;
+  /* limitar a 5 líneas para que las tarjetas sean consistentes */
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .msg-autor {
-  margin-top: 14px;
-  font-size: 11px;
-  letter-spacing: 0.14em;
+  margin-top: 16px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--silver-dk);
-  opacity: 0.5;
+  opacity: 0.45;
 }
 
-/* Formulario mensajes */
+/* indicadores de posición */
+.carrusel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 52px;
+}
+.carrusel-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  transition: background 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+.carrusel-dot.active {
+  background: var(--silver);
+  transform: scale(1.3);
+}
+
+/* estado vacío mientras carga */
+.carrusel-loading {
+  padding: 48px 24px;
+  color: rgba(250,250,250,0.25);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ---- FORMULARIO MENSAJES ---- */
 .msg-form {
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--border-lt);
@@ -682,6 +737,7 @@ body {
 }
 .btn-submit:hover { background: var(--silver-lt); }
 .btn-submit:active { transform: scale(0.99); }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .form-note {
   font-size: 11px;
@@ -1044,7 +1100,7 @@ footer.footer p {
       <div class="regalo-row">
         <div class="regalo-icon">$</div>
         <div>
-          <p class="regalo-label">Alias</p>
+          <p class="regalo-label">Alias Mercado Pago</p>
           <!-- EDITAR: alias o CBU -->
           <p class="regalo-alias">[alias.laura]</p>
         </div>
@@ -1084,22 +1140,19 @@ footer.footer p {
       Este es el lugar.
     </p>
 
-    <!-- Mensajes de ejemplo -->
-    <div class="mensajes-feed reveal reveal-delay-2">
-      <div class="msg-card">
-        <p class="msg-text">Te conocí hace más de veinte años y todavía me sorprendés con algo nuevo. Eso no lo tiene cualquiera.</p>
-        <p class="msg-autor">— Romi</p>
-      </div>
-      <div class="msg-card">
-        <p class="msg-text">Gracias por ser de las que están cuando están y te lo dicen de frente. Eso vale oro.</p>
-        <p class="msg-autor">— Martín y Sofi</p>
-      </div>
-      <div class="msg-card">
-        <p class="msg-text">Que los próximos cincuenta sean tan vivos y tan vos como los primeros.</p>
-        <p class="msg-autor">— La familia</p>
-      </div>
-    </div>
+  </div>
 
+  <!-- Carrusel — ancho completo, sin container para que se desborde -->
+  <div class="carrusel-wrapper reveal reveal-delay-2">
+    <div class="carrusel-track" id="carruselTrack">
+      <div class="carrusel-loading" id="carruselLoading">cargando mensajes…</div>
+    </div>
+  </div>
+
+  <!-- Dots de posición -->
+  <div class="carrusel-dots" id="carruselDots"></div>
+
+  <div class="container">
     <!-- Formulario -->
     <div class="msg-form reveal reveal-delay-3" id="msgFormContainer">
       <div id="msgFormFields">
@@ -1111,18 +1164,16 @@ footer.footer p {
           <label class="form-label" for="msg-texto">Tu mensaje</label>
           <textarea class="form-textarea" id="msg-texto" placeholder="Escribí lo que se te venga…"></textarea>
         </div>
-        <button class="btn-submit" onclick="enviarMensaje()">Dejar mensaje</button>
-        <!-- EDITAR: conectar con Formspree, Google Forms o Sheets -->
-        <p class="form-note">Los mensajes pueden conectarse a Formspree o Google Forms para que lleguen directo.</p>
+        <button class="btn-submit" id="msgBtn" onclick="enviarMensaje()">Dejar mensaje</button>
       </div>
       <div class="form-success" id="msgSuccess">
         <span class="icon">✦</span>
         <h4>Gracias por escribir</h4>
-        <p>Le va a llegar. Prometido.</p>
+        <p>Ya apareció ahí arriba. Prometido.</p>
       </div>
     </div>
-
   </div>
+
 </section>
 
 <!-- =========================================
@@ -1213,55 +1264,290 @@ footer.footer p {
      JAVASCRIPT
      ========================================= -->
 <script>
-  /* Scroll progress */
-  window.addEventListener('scroll', () => {
-    const el = document.getElementById('progress');
-    const st = document.documentElement.scrollTop;
-    const sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    el.style.width = ((st / sh) * 100) + '%';
+
+/* =============================================
+   CONFIGURACIÓN — EDITAR DESPUÉS DE CREAR
+   EL GOOGLE APPS SCRIPT
+   ============================================= */
+
+// EDITAR: pegá acá la URL que te da Google Apps Script al publicar
+const SCRIPT_URL = 'TU_URL_DE_APPS_SCRIPT_ACÁ';
+
+/* =============================================
+   SCROLL PROGRESS
+   ============================================= */
+window.addEventListener('scroll', () => {
+  const el = document.getElementById('progress');
+  const st = document.documentElement.scrollTop;
+  const sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  el.style.width = ((st / sh) * 100) + '%';
+});
+
+/* =============================================
+   REVEAL ON SCROLL
+   ============================================= */
+const revealEls = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.10 });
+revealEls.forEach(el => obs.observe(el));
+
+/* =============================================
+   CARRUSEL
+   ============================================= */
+const track     = document.getElementById('carruselTrack');
+const dotsEl    = document.getElementById('carruselDots');
+const loadingEl = document.getElementById('carruselLoading');
+
+let mensajes    = [];
+let autoTimer   = null;
+let isDragging  = false;
+let startX      = 0;
+let scrollStart = 0;
+
+// --- renderizar tarjetas ---
+function renderCarrusel(data) {
+  track.innerHTML = '';
+  dotsEl.innerHTML = '';
+
+  if (!data || data.length === 0) {
+    track.innerHTML = '<div class="carrusel-loading">Sé el primero en dejar un mensaje ✦</div>';
+    return;
+  }
+
+  data.forEach((m, i) => {
+    // tarjeta
+    const card = document.createElement('div');
+    card.className = 'msg-card';
+    card.innerHTML = `
+      <p class="msg-text">${escapeHtml(m.mensaje)}</p>
+      <p class="msg-autor">— ${escapeHtml(m.nombre)}</p>
+    `;
+    track.appendChild(card);
+
+    // dot
+    const dot = document.createElement('div');
+    dot.className = 'carrusel-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => scrollToCard(i));
+    dotsEl.appendChild(dot);
   });
 
-  /* Reveal on scroll */
-  const revealEls = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        obs.unobserve(e.target);
-      }
+  actualizarDots();
+  iniciarAutoplay();
+}
+
+// --- scroll a una tarjeta específica ---
+function scrollToCard(index) {
+  const cards = track.querySelectorAll('.msg-card');
+  if (!cards[index]) return;
+  const cardWidth = cards[index].offsetWidth + 16; // gap
+  track.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+}
+
+// --- actualizar dots según scroll ---
+function actualizarDots() {
+  const cards = track.querySelectorAll('.msg-card');
+  if (!cards.length) return;
+  const cardWidth = cards[0].offsetWidth + 16;
+  const index = Math.round(track.scrollLeft / cardWidth);
+  dotsEl.querySelectorAll('.carrusel-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === index);
+  });
+}
+
+track.addEventListener('scroll', actualizarDots);
+
+// --- autoplay ---
+function iniciarAutoplay() {
+  clearInterval(autoTimer);
+  autoTimer = setInterval(() => {
+    if (isDragging) return;
+    const cards = track.querySelectorAll('.msg-card');
+    if (!cards.length) return;
+    const cardWidth = cards[0].offsetWidth + 16;
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    const next = track.scrollLeft + cardWidth;
+    track.scrollTo({ left: next > maxScroll + 10 ? 0 : next, behavior: 'smooth' });
+  }, 4000);
+}
+
+// --- drag con mouse (desktop) ---
+track.addEventListener('mousedown', e => {
+  isDragging = true;
+  startX = e.pageX;
+  scrollStart = track.scrollLeft;
+  track.style.cursor = 'grabbing';
+  clearInterval(autoTimer);
+});
+window.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  track.scrollLeft = scrollStart - (e.pageX - startX);
+});
+window.addEventListener('mouseup', () => {
+  if (!isDragging) return;
+  isDragging = false;
+  track.style.cursor = 'grab';
+  actualizarDots();
+  iniciarAutoplay();
+});
+
+// --- touch (mobile) ---
+track.addEventListener('touchstart', e => {
+  startX = e.touches[0].pageX;
+  scrollStart = track.scrollLeft;
+  clearInterval(autoTimer);
+}, { passive: true });
+track.addEventListener('touchend', () => {
+  actualizarDots();
+  iniciarAutoplay();
+}, { passive: true });
+
+// --- agregar una tarjeta nueva al inicio sin recargar todo ---
+function prependMensaje(nombre, mensaje) {
+  const cards = track.querySelectorAll('.msg-card');
+  const card = document.createElement('div');
+  card.className = 'msg-card';
+  card.style.opacity = '0';
+  card.style.transform = 'scale(0.95)';
+  card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  card.innerHTML = `
+    <p class="msg-text">${escapeHtml(mensaje)}</p>
+    <p class="msg-autor">— ${escapeHtml(nombre)}</p>
+  `;
+
+  // insertar al principio
+  if (track.firstChild) {
+    track.insertBefore(card, track.firstChild);
+  } else {
+    track.appendChild(card);
+  }
+
+  // agregar dot
+  const dot = document.createElement('div');
+  dot.className = 'carrusel-dot';
+  dot.addEventListener('click', () => scrollToCard(0));
+  if (dotsEl.firstChild) {
+    dotsEl.insertBefore(dot, dotsEl.firstChild);
+  } else {
+    dotsEl.appendChild(dot);
+  }
+
+  // animar entrada
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      card.style.opacity = '1';
+      card.style.transform = 'scale(1)';
     });
-  }, { threshold: 0.10 });
-  revealEls.forEach(el => obs.observe(el));
+  });
 
-  /* Mensajes form */
-  function enviarMensaje() {
-    const nombre = document.getElementById('msg-nombre').value.trim();
-    const texto  = document.getElementById('msg-texto').value.trim();
-    if (!nombre || !texto) { alert('Completá tu nombre y tu mensaje antes de enviar.'); return; }
-    /*
-      EDITAR: agregá fetch() a tu endpoint acá.
-      Ejemplo Formspree:
-      fetch('https://formspree.io/f/TU_ID', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, mensaje: texto })
-      });
-    */
+  track.scrollTo({ left: 0, behavior: 'smooth' });
+  actualizarDots();
+}
+
+// --- helper ---
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/\n/g, '<br>');
+}
+
+/* =============================================
+   CARGAR MENSAJES DESDE GOOGLE SHEETS
+   ============================================= */
+async function cargarMensajes() {
+  // Si el script no está configurado todavía, mostrar ejemplos
+  if (SCRIPT_URL === 'TU_URL_DE_APPS_SCRIPT_ACÁ') {
+    renderCarrusel([
+      { nombre: 'Romi', mensaje: 'Te conocí hace más de veinte años y todavía me sorprendés con algo nuevo. Eso no lo tiene cualquiera.' },
+      { nombre: 'Martín y Sofi', mensaje: 'Gracias por ser de las que están cuando están y te lo dicen de frente. Eso vale oro.' },
+      { nombre: 'La familia', mensaje: 'Que los próximos cincuenta sean tan vivos y tan vos como los primeros.' },
+    ]);
+    return;
+  }
+
+  try {
+    const res  = await fetch(`${SCRIPT_URL}?action=getMensajes`);
+    const data = await res.json();
+    renderCarrusel(data);
+  } catch (e) {
+    loadingEl && (loadingEl.textContent = 'No se pudieron cargar los mensajes.');
+  }
+}
+
+/* =============================================
+   ENVIAR MENSAJE A GOOGLE SHEETS
+   ============================================= */
+async function enviarMensaje() {
+  const nombre = document.getElementById('msg-nombre').value.trim();
+  const texto  = document.getElementById('msg-texto').value.trim();
+
+  if (!nombre || !texto) {
+    alert('Completá tu nombre y tu mensaje antes de enviar.');
+    return;
+  }
+
+  const btn = document.getElementById('msgBtn');
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+
+  // Si el script no está configurado, simular
+  if (SCRIPT_URL === 'TU_URL_DE_APPS_SCRIPT_ACÁ') {
+    prependMensaje(nombre, texto);
     document.getElementById('msgFormFields').style.display = 'none';
-    document.getElementById('msgSuccess').style.display = 'block';
+    document.getElementById('msgSuccess').style.display   = 'block';
+    return;
   }
 
-  /* RSVP form */
-  function enviarRSVP() {
-    const nombre = document.getElementById('rsvp-nombre').value.trim();
-    if (!nombre) { alert('Poné tu nombre, ¿va?'); return; }
-    /*
-      EDITAR: agregá fetch() a tu endpoint acá.
-      Ejemplo Google Apps Script, Airtable, etc.
-    */
-    document.getElementById('rsvpFormFields').style.display = 'none';
-    document.getElementById('rsvpSuccess').style.display = 'block';
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors', // Apps Script requiere no-cors
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'addMensaje', nombre, mensaje: texto }),
+    });
+
+    // Agregar la tarjeta al carrusel inmediatamente (sin esperar reload)
+    prependMensaje(nombre, texto);
+
+    document.getElementById('msgFormFields').style.display = 'none';
+    document.getElementById('msgSuccess').style.display   = 'block';
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Dejar mensaje';
+    alert('Hubo un problema al enviar. Intentá de nuevo.');
   }
+}
+
+/* =============================================
+   RSVP
+   ============================================= */
+async function enviarRSVP() {
+  const nombre = document.getElementById('rsvp-nombre').value.trim();
+  if (!nombre) { alert('Poné tu nombre, ¿va?'); return; }
+
+  /*
+    EDITAR: si querés guardar también los RSVPs en Sheets,
+    podés usar el mismo SCRIPT_URL con action: 'addRSVP'
+    y agregar el caso en el Apps Script.
+  */
+
+  document.getElementById('rsvpFormFields').style.display = 'none';
+  document.getElementById('rsvpSuccess').style.display   = 'block';
+}
+
+/* =============================================
+   INIT
+   ============================================= */
+cargarMensajes();
+
 </script>
 
 </body>
