@@ -1206,7 +1206,7 @@ footer.footer p {
           <label class="form-label" for="rsvp-nota">¿Algo que quieras aclarar?</label>
           <textarea class="form-textarea" id="rsvp-nota" placeholder="Llegás más tarde, algo que no podés comer, lo que sea." style="min-height:90px;"></textarea>
         </div>
-        <button class="btn-submit" onclick="enviarRSVP()">Confirmar asistencia</button>
+        <button class="btn-submit" id="rsvpBtn" onclick="enviarRSVP()">Confirmar asistencia</button>
         <!-- EDITAR: conectar con Google Forms, Airtable, etc. -->
         <p class="form-note">Puede conectarse a Google Forms o cualquier backend para registrar respuestas.</p>
       </div>
@@ -1530,14 +1530,26 @@ async function enviarMensaje() {
    RSVP
    ============================================= */
 async function enviarRSVP() {
-  const nombre = document.getElementById('rsvp-nombre').value.trim();
+  const nombre   = document.getElementById('rsvp-nombre').value.trim();
+  const cantidad = document.getElementById('rsvp-cantidad').value.trim();
+  const nota     = document.getElementById('rsvp-nota').value.trim();
+
   if (!nombre) { alert('Poné tu nombre, ¿va?'); return; }
 
-  /*
-    EDITAR: si querés guardar también los RSVPs en Sheets,
-    podés usar el mismo SCRIPT_URL con action: 'addRSVP'
-    y agregar el caso en el Apps Script.
-  */
+  const btn = document.getElementById('rsvpBtn');
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'addRSVP', nombre, cantidad: cantidad || 1, nota }),
+    });
+  } catch (e) {
+    // no-cors no permite leer la respuesta, así que cualquier fetch que llegue = ok
+  }
 
   document.getElementById('rsvpFormFields').style.display = 'none';
   document.getElementById('rsvpSuccess').style.display   = 'block';
