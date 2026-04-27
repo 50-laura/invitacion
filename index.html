@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Laura · 50 · 10 de mayo</title>
+<title>Laura · 50 · 15 de mayo</title>
 
 <!-- ============================================================
      OPEN GRAPH — controla lo que se ve al compartir el link
@@ -14,7 +14,7 @@
 <meta property="og:title" content="Laura cumple 50 🖤" />
 
 <!-- EDITAR: texto descriptivo debajo del título en la preview -->
-<meta property="og:description" content="10 de mayo · Hormiga Negra · Belgrano · ¡Te espero!" />
+<meta property="og:description" content="15 de mayo · Base Cultural Ugarte · Belgrano · ¡Te espero!" />
 
 <!-- EDITAR: URL exacta del sitio publicado -->
 <meta property="og:url" content="https://50-laura.github.io/invitacion/" />
@@ -34,7 +34,7 @@
 <!-- Twitter / X -->
 <meta name="twitter:card"        content="summary_large_image" />
 <meta name="twitter:title"       content="Laura cumple 50 🖤" />
-<meta name="twitter:description" content="10 de mayo · Hormiga Negra · Belgrano · ¡Te espero!" />
+<meta name="twitter:description" content="15 de mayo · Base Cultural Ugarte · Belgrano · ¡Te espero!" />
 <meta name="twitter:image"       content="https://50-laura.github.io/invitacion/preview.jpg" />
 
 <!-- WhatsApp usa og:title, og:description y og:image — no necesita tags extra -->
@@ -469,6 +469,43 @@ body {
   background: var(--white);
   color: var(--black);
   border-color: var(--white);
+}
+
+
+.evento-notes {
+  max-width: 520px;
+  margin: 26px auto 0;
+  display: grid;
+  gap: 12px;
+}
+.evento-note {
+  border: 1px solid var(--border-lt);
+  background: rgba(255,255,255,0.035);
+  padding: 20px 22px;
+  text-align: left;
+}
+.evento-note strong {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: var(--silver-dk);
+  opacity: 0.72;
+  margin-bottom: 7px;
+  font-weight: 400;
+}
+.evento-note span {
+  display: block;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(250,250,250,0.62);
+  font-weight: 300;
+}
+.regalo-text {
+  font-size: 14px;
+  color: var(--mid);
+  line-height: 1.7;
+  font-weight: 300;
 }
 
 /* ============================================
@@ -958,7 +995,7 @@ footer.footer p {
   <div class="hero-rule"></div>
   <div class="hero-inner">
 
-    <p class="hero-eyebrow">10 de mayo · 2026 · Buenos Aires</p>
+    <p class="hero-eyebrow">15 de mayo · 2026 · Buenos Aires</p>
 
     <!-- EDITAR: nombre -->
     <h1 class="hero-name">Laura</h1>
@@ -999,6 +1036,9 @@ footer.footer p {
       <p>
         Así que esta noche no es solo un cumpleaños. Es una excusa perfecta para juntarnos, mirarnos a la cara y decir: acá estamos, llegamos, y qué bien que estamos.
       </p>
+      <p>
+        Los 50 llegaron el 10. El festejo de verdad, como corresponde, es el 15.
+      </p>
     </div>
 
     <div class="quote-block reveal reveal-delay-3">
@@ -1037,37 +1077,48 @@ footer.footer p {
       <div class="evento-item">
         <p class="evento-label">Fecha</p>
         <!-- EDITAR: fecha -->
-        <p class="evento-value">9 de mayo</p>
-        <p class="evento-sub">sábado · 2026</p>
+        <p class="evento-value">15 de mayo</p>
+        <p class="evento-sub">viernes · 2026</p>
       </div>
 
       <div class="evento-item">
         <p class="evento-label">Hora</p>
         <!-- EDITAR: hora -->
-        <p class="evento-value">21:00 hs</p>
-        <p class="evento-sub">en punto, che</p>
+        <p class="evento-value">21:30 hs</p>
+        <p class="evento-sub">puntualidad opcional</p>
       </div>
 
       <div class="evento-item">
         <p class="evento-label">Lugar</p>
-        <p class="evento-value">Hormiga Negra</p>
+        <p class="evento-value">Base Cultural Ugarte</p>
         <p class="evento-sub">Belgrano · CABA</p>
       </div>
 
       <div class="evento-item">
         <p class="evento-label">Dirección</p>
         <!-- EDITAR: dirección -->
-        <p class="evento-value" style="font-size:18px; font-style:normal; font-family:var(--sans); font-weight:300;">Amenábar 2363</p>
+        <p class="evento-value" style="font-size:18px; font-style:normal; font-family:var(--sans); font-weight:300;">Manuel Ugarte 2789</p>
         <p class="evento-sub">Ciudad de Buenos Aires</p>
       </div>
 
     </div>
 
+    <div class="evento-notes reveal reveal-delay-4">
+      <div class="evento-note">
+        <strong>Dress code</strong>
+        <span>La consigna es blanco y negro. Vení con esos colores así hacemos que la noche tenga toda la onda.</span>
+      </div>
+      <div class="evento-note">
+        <strong>Para tomar</strong>
+        <span>Traé algo para brindar y compartir durante la noche: vino, espumante, bebida sin alcohol o lo que más te guste.</span>
+      </div>
+    </div>
+
     <!-- Link Google Maps real -->
-    <a href="https://maps.app.goo.gl/qBuHyZYfFTNb4UeD7"
+    <a href="https://maps.app.goo.gl/uX6gXMN3FczGCwrz9"
        class="btn-map reveal reveal-delay-4"
        target="_blank" rel="noopener">
-      Ver en el mapa →
+      Cómo llegar →
     </a>
 
   </div>
@@ -1079,35 +1130,40 @@ footer.footer p {
 <section id="regalos">
   <div class="container">
 
-    <span class="section-tag reveal">si te pinta</span>
-    <h2 class="section-title reveal reveal-delay-1">Regalos</h2>
+    <span class="section-tag reveal">Si querés tener un gesto</span>
+    <h2 class="section-title reveal reveal-delay-1">No hace falta traer regalo.</h2>
     <p class="section-body reveal reveal-delay-2">
-      Con que vengas ya me alcanza y me sobra.<br>
-      Pero si querés sumar un detalle, te dejo algunas ideas:
+      Pero si te nace sumar un detalle, te dejo algunas ideas:
     </p>
 
     <div class="regalos-box reveal reveal-delay-3">
 
       <div class="regalo-row">
-        <div class="regalo-icon">♡</div>
+        <div class="regalo-icon">◐</div>
         <div>
-          <p class="regalo-label">Lista de regalos</p>
-          <!-- EDITAR: link a lista de regalos -->
-          <a href="https://myaccount.mercadolibre.com.ar/bookmarks/wishlist/hub/detail/a279b8f6-1981-4956-b97b-6e34609888ab" class="regalo-link">Ver lista →</a>
+          <p class="regalo-label">Para brindar</p>
+          <p class="regalo-text">Un buen vino, unas copas o algo rico para compartir.</p>
         </div>
       </div>
 
       <div class="regalo-row">
-        <div class="regalo-icon">$</div>
+        <div class="regalo-icon">◒</div>
         <div>
-          <p class="regalo-label">Alias</p>
-          <!-- EDITAR: alias o CBU -->
-          <p class="regalo-alias">[alias.laura]</p>
+          <p class="regalo-label">Para mi casa</p>
+          <p class="regalo-text">Deco, velas o algún objeto lindo.</p>
         </div>
       </div>
 
       <div class="regalo-row">
-        <div class="regalo-icon">✦</div>
+        <div class="regalo-icon">●</div>
+        <div>
+          <p class="regalo-label">Algo personal</p>
+          <p class="regalo-text">Un perfume, una experiencia o un detalle pensado con amor.</p>
+        </div>
+      </div>
+
+      <div class="regalo-row">
+        <div class="regalo-icon">○</div>
         <div>
           <p class="regalo-label">¿Nada de eso te convence?</p>
           <p style="font-size:14px; color:var(--mid); line-height:1.7; font-weight:300;">
@@ -1187,7 +1243,7 @@ footer.footer p {
     <p class="section-body reveal reveal-delay-2">
       Me ayuda saber cuántos somos.<br>
       <!-- EDITAR: fecha límite de confirmación -->
-      Avisame antes del 5 de mayo
+      Avisame antes del 10 de mayo
     </p>
 
     <div class="divider dark reveal reveal-delay-3"></div>
@@ -1212,8 +1268,8 @@ footer.footer p {
       </div>
       <div class="rsvp-success" id="rsvpSuccess">
         <span class="icon">✓</span>
-        <h4>¡Nos vemos el 9!</h4>
-        <p>Anotado. Te espero.</p>
+        <h4>¡Nos vemos el 15!</h4>
+        <p>Anotado. Te espero el 15.</p>
       </div>
     </div>
 
@@ -1238,8 +1294,8 @@ footer.footer p {
 
     <div class="reveal reveal-delay-3">
       <!-- EDITAR: fecha y lugar en cierre -->
-      <p class="cierre-date">10 de mayo · 2026</p>
-      <p class="cierre-place">Hormiga Negra · Amenábar 2363 · Belgrano · CABA</p>
+      <p class="cierre-date">15 de mayo · 2026</p>
+      <p class="cierre-place">Base Cultural Ugarte · Manuel Ugarte 2789 · Belgrano</p>
     </div>
 
   </div>
@@ -1250,7 +1306,7 @@ footer.footer p {
       <div class="footer-swatch-b"></div>
       <div class="footer-swatch-w"></div>
     </div>
-    <p class="footer-dc-text">Dress code · temática: blanco &amp; negro</p>
+    <p class="footer-dc-text">Dress code obligatorio: blanco &amp; negro</p>
   </div>
 
   <footer class="footer">
