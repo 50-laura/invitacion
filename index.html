@@ -982,6 +982,95 @@ footer.footer p {
   .msg-form, .rsvp-form { padding: 44px 40px; }
 }
 
+
+/* ============================================
+   PLAYLIST
+   ============================================ */
+#playlist {
+  background: var(--white);
+  padding: 96px 0;
+  text-align: center;
+}
+
+.playlist-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--black);
+  border: 1px solid var(--border-lt);
+  border-radius: var(--radius);
+  padding: 18px;
+  max-width: 520px;
+  margin: 40px auto 0;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.playlist-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border-color: rgba(200,200,200,0.32);
+}
+
+.playlist-image {
+  width: 82px;
+  height: 82px;
+  flex: 0 0 82px;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.playlist-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.playlist-content {
+  text-align: left;
+  min-width: 0;
+}
+
+.playlist-title {
+  font-family: var(--script);
+  font-size: clamp(20px, 5vw, 26px);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 5px;
+}
+
+.playlist-sub {
+  font-size: 10px;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.36);
+  margin-bottom: 10px;
+}
+
+.playlist-link {
+  font-size: 12px;
+  color: var(--silver);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 480px) {
+  .playlist-card {
+    gap: 16px;
+    padding: 16px;
+  }
+  .playlist-image {
+    width: 74px;
+    height: 74px;
+    flex-basis: 74px;
+  }
+}
+
+
 </style>
 </head>
 <body>
@@ -1232,8 +1321,46 @@ footer.footer p {
 
 </section>
 
+
 <!-- =========================================
-     6. RSVP
+     6. PLAYLIST
+     ========================================= -->
+<section id="playlist">
+  <div class="container">
+
+    <span class="section-tag reveal">para la noche</span>
+    <h2 class="section-title reveal reveal-delay-1">Playlist</h2>
+
+    <p class="section-body reveal reveal-delay-2">
+      La noche también se arma con música.<br>
+      Sumá ese tema que sabés que tiene que sonar sí o sí.
+    </p>
+
+    <div class="divider reveal reveal-delay-3"></div>
+
+    <a href="https://open.spotify.com/playlist/7gjUpyZlqr0pUouA7JaJ9w"
+       target="_blank"
+       rel="noopener"
+       class="playlist-card reveal reveal-delay-3"
+       aria-label="Abrir playlist colaborativa #LAURACUMPLE en Spotify">
+
+      <div class="playlist-image">
+        <img src="laura-cumple-playlist-spotify.png" alt="Playlist #LAURACUMPLE">
+      </div>
+
+      <div class="playlist-content">
+        <p class="playlist-title">#LAURACUMPLE🤍</p>
+        <p class="playlist-sub">Playlist colaborativa</p>
+        <span class="playlist-link">Agregar canción →</span>
+      </div>
+
+    </a>
+
+  </div>
+</section>
+
+<!-- =========================================
+     7. RSVP
      ========================================= -->
 <section id="rsvp">
   <div class="container">
