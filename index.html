@@ -76,7 +76,7 @@
    RESET & BASE
    ============================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   background: var(--offwhite);
   color: var(--dark);
@@ -182,8 +182,8 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.64) 100%),
-    linear-gradient(180deg, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.70) 100%),
+    linear-gradient(90deg, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.10) 46%, rgba(0,0,0,0.28) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.62) 100%),
     url("laura-cumple-portada-16-9.png");
   background-repeat: no-repeat;
   background-position: center center;
@@ -195,7 +195,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: radial-gradient(circle at 50% 48%, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.42) 58%, rgba(0,0,0,0.76) 100%);
+  background: radial-gradient(circle at 50% 48%, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.20) 58%, rgba(0,0,0,0.52) 100%);
   pointer-events: none;
 }
 
@@ -993,6 +993,87 @@ footer.footer p {
   text-transform: uppercase;
 }
 
+
+/* ============================================
+   ASISTENTES CONFIRMADOS
+   ============================================ */
+#asistentes {
+  background: var(--offwhite);
+  padding: 88px 0 96px;
+  text-align: center;
+}
+
+.asistentes-card {
+  max-width: 560px;
+  margin: 42px auto 0;
+  padding: 34px 28px;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 18px 48px rgba(0,0,0,0.05);
+  text-align: left;
+}
+
+.asistentes-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  margin-bottom: 20px;
+}
+
+.asistentes-number {
+  font-family: var(--script);
+  font-size: clamp(42px, 10vw, 62px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--dark);
+  line-height: 1;
+}
+
+.asistentes-label {
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--light-mid);
+  text-align: right;
+}
+
+.asistentes-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.asistente-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 9px 12px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.025);
+  border-radius: 999px;
+  color: var(--mid);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.asistente-pill strong {
+  color: var(--dark);
+  font-weight: 400;
+}
+
+.asistentes-empty {
+  color: var(--light-mid);
+  font-size: 13px;
+  font-weight: 300;
+  text-align: center;
+  padding: 10px 0 0;
+}
+
 /* ============================================
    RESPONSIVE
    ============================================ */
@@ -1004,14 +1085,14 @@ footer.footer p {
   }
   .hero-bg {
     background:
-      linear-gradient(180deg, rgba(0,0,0,0.34) 0%, rgba(0,0,0,0.78) 100%),
+      linear-gradient(180deg, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.70) 100%),
       url("laura-cumple-portada.png");
     background-repeat: no-repeat;
-    background-position: center top;
+    background-position: center 20%;
     background-size: cover;
   }
   .hero-bg::before {
-    background: radial-gradient(circle at 50% 40%, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.42) 62%, rgba(0,0,0,0.78) 100%);
+    background: radial-gradient(circle at 50% 42%, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.26) 62%, rgba(0,0,0,0.70) 100%);
   }
   .hero-eyebrow {
     font-size: 8.5px;
@@ -1037,6 +1118,20 @@ footer.footer p {
 
 @media (min-width: 641px) and (max-width: 1024px) {
   .hero-bg {
+    background-position: center center;
+  }
+}
+
+@media (min-width: 1025px) {
+  .hero-bg {
+    background-position: center center;
+    background-size: cover;
+  }
+}
+
+@media (min-width: 1440px) {
+  .hero-bg {
+    background-size: cover;
     background-position: center center;
   }
 }
@@ -1629,8 +1724,34 @@ footer.footer p {
   </div>
 </section>
 
+
 <!-- =========================================
-     7. CIERRE
+     8. ASISTENTES CONFIRMADOS
+     ========================================= -->
+<section id="asistentes">
+  <div class="container">
+
+    <span class="section-tag reveal">ya confirmaron</span>
+    <h2 class="section-title reveal reveal-delay-1">Ahí estarán</h2>
+    <p class="section-body reveal reveal-delay-2">
+      Los que ya dijeron que sí para compartir la noche.
+    </p>
+
+    <div class="asistentes-card reveal reveal-delay-3">
+      <div class="asistentes-total">
+        <span class="asistentes-number" id="asistentesTotal">0</span>
+        <span class="asistentes-label">personas<br>confirmadas</span>
+      </div>
+      <div class="asistentes-list" id="asistentesList">
+        <p class="asistentes-empty">Cargando confirmaciones…</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =========================================
+     9. CIERRE
      ========================================= -->
 <section id="cierre">
   <div class="cierre-inner reveal">
@@ -1718,6 +1839,16 @@ let autoTimer   = null;
 let isDragging  = false;
 let startX      = 0;
 let scrollStart = 0;
+
+// --- mezclar mensajes para que cada visita arranque diferente ---
+function shuffleArray(arr) {
+  const copy = Array.isArray(arr) ? [...arr] : [];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
 
 // --- renderizar tarjetas ---
 function renderCarrusel(data) {
@@ -1874,18 +2005,18 @@ function escapeHtml(str) {
 async function cargarMensajes() {
   // Si el script no está configurado todavía, mostrar ejemplos
   if (SCRIPT_URL === 'TU_URL_DE_APPS_SCRIPT_ACÁ') {
-    renderCarrusel([
+    renderCarrusel(shuffleArray([
       { nombre: 'Romi', mensaje: 'Te conocí hace más de veinte años y todavía me sorprendés con algo nuevo. Eso no lo tiene cualquiera.' },
       { nombre: 'Martín y Sofi', mensaje: 'Gracias por ser de las que están cuando están y te lo dicen de frente. Eso vale oro.' },
       { nombre: 'La familia', mensaje: 'Que los próximos cincuenta sean tan vivos y tan vos como los primeros.' },
-    ]);
+    ]));
     return;
   }
 
   try {
     const res  = await fetch(`${SCRIPT_URL}?action=getMensajes`);
     const data = await res.json();
-    renderCarrusel(data);
+    renderCarrusel(shuffleArray(data));
   } catch (e) {
     loadingEl && (loadingEl.textContent = 'No se pudieron cargar los mensajes.');
   }
@@ -1938,6 +2069,69 @@ async function enviarMensaje() {
 /* =============================================
    RSVP
    ============================================= */
+
+function normalizarRSVP(data) {
+  if (!Array.isArray(data)) return [];
+  return data
+    .map(item => {
+      const nombre = String(item.nombre || item.Nombre || item.name || '').trim();
+      const cantidadRaw = item.cantidad || item.Cantidad || item.personas || item.Personas || 1;
+      const cantidad = Math.max(1, parseInt(cantidadRaw, 10) || 1);
+      return { nombre, cantidad };
+    })
+    .filter(item => item.nombre);
+}
+
+function renderRSVP(data) {
+  const listEl = document.getElementById('asistentesList');
+  const totalEl = document.getElementById('asistentesTotal');
+  if (!listEl || !totalEl) return;
+
+  const confirmados = normalizarRSVP(data);
+  const total = confirmados.reduce((acc, item) => acc + item.cantidad, 0);
+  totalEl.textContent = total;
+  listEl.innerHTML = '';
+
+  if (!confirmados.length) {
+    listEl.innerHTML = '<p class="asistentes-empty">Todavía no hay confirmaciones visibles.</p>';
+    return;
+  }
+
+  confirmados.forEach(item => {
+    const pill = document.createElement('span');
+    pill.className = 'asistente-pill';
+    const extra = item.cantidad > 1 ? ` +${item.cantidad - 1}` : '';
+    pill.innerHTML = `<strong>${escapeHtml(item.nombre)}</strong>${extra}`;
+    listEl.appendChild(pill);
+  });
+}
+
+let rsvpLocal = [];
+
+async function cargarRSVP() {
+  const listEl = document.getElementById('asistentesList');
+  if (SCRIPT_URL === 'TU_URL_DE_APPS_SCRIPT_ACÁ') {
+    renderRSVP([
+      { nombre: 'Laura', cantidad: 1 },
+      { nombre: 'Ezequiel', cantidad: 2 },
+      { nombre: 'Giuli', cantidad: 1 },
+    ]);
+    return;
+  }
+
+  try {
+    const res = await fetch(`${SCRIPT_URL}?action=getRSVP`);
+    const data = await res.json();
+    renderRSVP(data);
+  } catch (e) {
+    if (rsvpLocal.length) {
+      renderRSVP(rsvpLocal);
+    } else if (listEl) {
+      listEl.innerHTML = '<p class="asistentes-empty">Las confirmaciones se van actualizando acá.</p>';
+    }
+  }
+}
+
 async function enviarRSVP() {
   const nombre   = document.getElementById('rsvp-nombre').value.trim();
   const cantidad = document.getElementById('rsvp-cantidad').value.trim();
@@ -1962,12 +2156,18 @@ async function enviarRSVP() {
 
   document.getElementById('rsvpFormFields').style.display = 'none';
   document.getElementById('rsvpSuccess').style.display   = 'block';
+
+  // Mostrar la confirmación en pantalla de inmediato, aunque la lectura del Sheet tarde.
+  rsvpLocal = [...rsvpLocal, { nombre, cantidad: cantidad || 1 }];
+  renderRSVP(rsvpLocal);
+  cargarRSVP();
 }
 
 /* =============================================
    INIT
    ============================================= */
 cargarMensajes();
+cargarRSVP();
 
 </script>
 
