@@ -182,27 +182,21 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(rgba(0,0,0,0.56), rgba(0,0,0,0.74)),
-    url("laura-cumple-portada.png");
+    linear-gradient(90deg, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.34) 45%, rgba(0,0,0,0.64) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.70) 100%),
+    url("laura-cumple-portada-16-9.png");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: auto 100%;
+  background-size: cover;
 }
 
 .hero-bg::before {
   content: '';
   position: absolute;
-  inset: -28px;
-  z-index: -1;
-  background:
-    linear-gradient(rgba(0,0,0,0.70), rgba(0,0,0,0.82)),
-    url("laura-cumple-portada.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  filter: blur(18px);
-  transform: scale(1.04);
-  opacity: 0.75;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(circle at 50% 48%, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.42) 58%, rgba(0,0,0,0.76) 100%);
+  pointer-events: none;
 }
 
 /* Grano sutil */
@@ -1002,33 +996,22 @@ footer.footer p {
 /* ============================================
    RESPONSIVE
    ============================================ */
-@media (min-width: 1025px) {
-  .hero-bg {
-    background-size: auto 100%;
-    background-position: center center;
-  }
-}
-
-@media (min-width: 481px) and (max-width: 1024px) {
-  .hero-bg {
-    background-size: auto 100%;
-    background-position: center center;
-  }
-}
-
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   #hero {
     min-height: 100svh;
     padding-left: 20px;
     padding-right: 20px;
   }
   .hero-bg {
-    background-size: cover;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.34) 0%, rgba(0,0,0,0.78) 100%),
+      url("laura-cumple-portada.png");
+    background-repeat: no-repeat;
     background-position: center top;
+    background-size: cover;
   }
   .hero-bg::before {
-    opacity: 0.5;
-    filter: blur(14px);
+    background: radial-gradient(circle at 50% 40%, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.42) 62%, rgba(0,0,0,0.78) 100%);
   }
   .hero-eyebrow {
     font-size: 8.5px;
@@ -1045,15 +1028,19 @@ footer.footer p {
   .hero-date {
     margin-top: 36px;
   }
-}
-
-
   .evento-grid { grid-template-columns: 1fr; }
   .evento-item:nth-child(odd) { border-right: none; }
   .evento-item:not(:last-child) { border-bottom: 1px solid var(--border-lt); }
   .regalos-box { padding: 32px 22px; }
   .msg-form, .rsvp-form { padding: 30px 20px; }
 }
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hero-bg {
+    background-position: center center;
+  }
+}
+
 @media (min-width: 768px) {
   .container { padding: 0 48px; }
   .msg-form, .rsvp-form { padding: 44px 40px; }
@@ -1061,90 +1048,234 @@ footer.footer p {
 
 
 /* ============================================
-   PLAYLIST
+   PLAYLIST — Spotify inspired, premium
    ============================================ */
-#playlist {
-  background: var(--white);
+.playlist-section {
+  background:
+    radial-gradient(circle at top left, rgba(29, 185, 84, 0.10), transparent 34%),
+    linear-gradient(180deg, var(--white) 0%, var(--offwhite) 100%);
   padding: 96px 0;
   text-align: center;
+  overflow-x: hidden;
 }
 
-.playlist-card {
-  display: flex;
+.spotify-invite-card {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 148px 1fr;
   align-items: center;
-  gap: 20px;
-  background: var(--black);
-  border: 1px solid var(--border-lt);
-  border-radius: var(--radius);
-  padding: 18px;
-  max-width: 520px;
-  margin: 40px auto 0;
+  gap: 24px;
+  max-width: 620px;
+  margin: 44px auto 0;
+  padding: 22px;
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.035)),
+    linear-gradient(135deg, #111814 0%, #080808 58%, #151515 100%);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    0 24px 70px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  color: var(--white);
   text-decoration: none;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}
-
-.playlist-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  border-color: rgba(200,200,200,0.32);
-}
-
-.playlist-image {
-  width: 82px;
-  height: 82px;
-  flex: 0 0 82px;
+  text-align: left;
   overflow: hidden;
-  border-radius: var(--radius);
-  border: 1px solid rgba(255,255,255,0.12);
+  transform: translateZ(0);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
 }
 
-.playlist-image img {
+.spotify-invite-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(29, 185, 84, 0.34);
+  box-shadow:
+    0 32px 90px rgba(0,0,0,0.30),
+    0 0 0 1px rgba(29,185,84,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.10);
+}
+
+.spotify-card-glow {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  right: -70px;
+  top: -90px;
+  border-radius: 999px;
+  background: rgba(29, 185, 84, 0.20);
+  filter: blur(44px);
+  opacity: 0.65;
+  z-index: -1;
+}
+
+.spotify-cover-wrap {
+  position: relative;
+  width: 148px;
+  height: 148px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #161616;
+  box-shadow:
+    0 18px 36px rgba(0,0,0,0.38),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.spotify-cover {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  transform: scale(1.01);
 }
 
-.playlist-content {
-  text-align: left;
-  min-width: 0;
+.spotify-cover-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.64), transparent 58%);
+  pointer-events: none;
 }
 
-.playlist-title {
-  font-family: var(--script);
-  font-size: clamp(20px, 5vw, 26px);
-  font-style: italic;
-  font-weight: 400;
-  color: var(--white);
+.spotify-cover-label {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  font-size: 11px;
   line-height: 1.15;
-  margin-bottom: 5px;
+  letter-spacing: 0.10em;
+  font-weight: 500;
+  color: #fff;
+  text-transform: uppercase;
 }
 
-.playlist-sub {
+.spotify-card-content { min-width: 0; }
+
+.spotify-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
   font-size: 10px;
+  line-height: 1;
   letter-spacing: 0.20em;
   text-transform: uppercase;
-  color: rgba(250,250,250,0.36);
-  margin-bottom: 10px;
+  color: rgba(255,255,255,0.46);
 }
 
-.playlist-link {
+.spotify-wave {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(29, 185, 84, 0.16);
+  color: #1DB954;
   font-size: 12px;
-  color: var(--silver);
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 
-@media (max-width: 480px) {
-  .playlist-card {
-    gap: 16px;
-    padding: 16px;
+.spotify-title {
+  font-family: var(--script);
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.05;
+  color: var(--white);
+  margin: 0 0 10px;
+}
+
+.spotify-copy {
+  max-width: 330px;
+  margin: 0 0 20px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.64);
+}
+
+.spotify-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px 11px 12px;
+  border-radius: 999px;
+  background: #1DB954;
+  color: #061006;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.spotify-invite-card:hover .spotify-cta {
+  transform: translateX(2px);
+  background: #28d865;
+}
+
+.spotify-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.18);
+  font-size: 10px;
+  line-height: 1;
+  padding-left: 1px;
+}
+
+@media (max-width: 760px) {
+  .spotify-invite-card {
+    max-width: 520px;
+    grid-template-columns: 120px 1fr;
+    gap: 18px;
+    padding: 18px;
+    border-radius: 22px;
   }
-  .playlist-image {
-    width: 74px;
-    height: 74px;
-    flex-basis: 74px;
+  .spotify-cover-wrap {
+    width: 120px;
+    height: 120px;
+    border-radius: 18px;
   }
+  .spotify-copy {
+    font-size: 13.5px;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .playlist-section { padding: 86px 0; }
+  .spotify-invite-card {
+    width: 100%;
+    max-width: 360px;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 18px;
+    text-align: center;
+    border-radius: 24px;
+  }
+  .spotify-cover-wrap {
+    width: min(100%, 260px);
+    height: auto;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+    border-radius: 22px;
+  }
+  .spotify-cover-label {
+    font-size: 12px;
+    bottom: 14px;
+  }
+  .spotify-card-content { text-align: center; }
+  .spotify-kicker { justify-content: center; }
+  .spotify-copy {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .spotify-cta { justify-content: center; }
 }
 
 
@@ -1403,7 +1534,7 @@ footer.footer p {
 <!-- =========================================
      6. PLAYLIST
      ========================================= -->
-<section id="playlist">
+<section id="playlist" class="playlist-section">
   <div class="container">
 
     <span class="section-tag reveal">para la noche</span>
@@ -1414,24 +1545,41 @@ footer.footer p {
       Sumá ese tema que sabés que tiene que sonar sí o sí.
     </p>
 
-    <div class="divider reveal reveal-delay-3"></div>
+    <a
+      class="spotify-invite-card reveal reveal-delay-3"
+      href="https://open.spotify.com/playlist/7gjUpyZlqr0pUouA7JaJ9w"
+      target="_blank"
+      rel="noopener"
+      aria-label="Abrir playlist colaborativa de Laura en Spotify"
+    >
+      <div class="spotify-card-glow"></div>
 
-    <a href="https://open.spotify.com/playlist/7gjUpyZlqr0pUouA7JaJ9w"
-       target="_blank"
-       rel="noopener"
-       class="playlist-card reveal reveal-delay-3"
-       aria-label="Abrir playlist colaborativa #LAURACUMPLE en Spotify">
-
-      <div class="playlist-image">
-        <img src="laura-cumple-playlist-spotify.png" alt="Playlist #LAURACUMPLE">
+      <div class="spotify-cover-wrap">
+        <img
+          src="laura-cumple-playlist-spotify.png"
+          alt="Portada playlist Laura Cumple"
+          class="spotify-cover"
+        />
+        <div class="spotify-cover-label">#LAURACUMPLE🤍</div>
       </div>
 
-      <div class="playlist-content">
-        <p class="playlist-title">#LAURACUMPLE🤍</p>
-        <p class="playlist-sub">Playlist colaborativa</p>
-        <span class="playlist-link">Agregar canción →</span>
-      </div>
+      <div class="spotify-card-content">
+        <div class="spotify-kicker">
+          <span class="spotify-wave">♫</span>
+          Playlist colaborativa
+        </div>
 
+        <h3 class="spotify-title">Que no falte ese tema</h3>
+
+        <p class="spotify-copy">
+          Sumá la canción que sabés que tiene que sonar cuando arranque la noche.
+        </p>
+
+        <span class="spotify-cta">
+          <span class="spotify-play">▶</span>
+          Agregar canción →
+        </span>
+      </div>
     </a>
 
   </div>
