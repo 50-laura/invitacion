@@ -657,6 +657,7 @@ body {
   touch-action: pan-y;
   overscroll-behavior-x: contain;
   will-change: transform;
+  -webkit-user-drag: none;
 }
 .carrusel-track.is-dragging { transition: none; }
 .carrusel-track:active { cursor: grabbing; }
@@ -674,6 +675,8 @@ body {
   transition: background 0.3s, opacity 0.3s;
   text-align: left;
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1957,6 +1960,7 @@ function iniciarAutoplay() {
 // --- swipe / drag circular ---
 function startCarruselDrag(e) {
   if (isDragging) return;
+  if (e.pointerType === 'touch') return;
   if (e.pointerType === 'mouse' && e.button !== 0) return;
   actualizarDots();
   isDragging = true;
@@ -1994,13 +1998,35 @@ function endCarruselDrag(e) {
   iniciarAutoplay();
 }
 
+function startMouseCarruselDrag(e) {
+  if (isDragging || e.button !== 0) return;
+  actualizarDots();
+  isDragging = true;
+  startX = e.clientX;
+  dragStartIndex = currentIndex;
+  dragDeltaX = 0;
+  track.classList.add('is-dragging');
+  track.style.cursor = 'grabbing';
+  clearTimeout(autoTimer);
+  e.preventDefault();
+}
+
+function moveMouseCarruselDrag(e) {
+  if (!isDragging) return;
+  dragDeltaX = e.clientX - startX;
+  setTrackPosition(dragStartIndex, dragDeltaX);
+}
+
 track.addEventListener('pointerdown', startCarruselDrag);
 track.addEventListener('pointermove', moveCarruselDrag);
 track.addEventListener('pointerup', endCarruselDrag);
 track.addEventListener('pointercancel', endCarruselDrag);
+track.addEventListener('mousedown', startMouseCarruselDrag);
+window.addEventListener('mousemove', moveMouseCarruselDrag);
+window.addEventListener('mouseup', endCarruselDrag);
 
 track.addEventListener('touchstart', e => {
-  if (isDragging || !e.touches.length) return;
+  if (!e.touches.length) return;
   actualizarDots();
   isDragging = true;
   startX = e.touches[0].clientX;
