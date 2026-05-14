@@ -674,6 +674,9 @@ body {
   transition: background 0.3s, opacity 0.3s;
   text-align: left;
   user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .msg-card:hover { background: rgba(255,255,255,0.065); }
 
@@ -695,11 +698,8 @@ body {
   color: rgba(250,250,250,0.82);
   line-height: 1.78;
   padding-top: 8px;
-  /* limitar a 5 líneas para que las tarjetas sean consistentes */
-  display: -webkit-box;
-  -webkit-line-clamp: 7;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 .msg-autor {
   margin-top: 16px;
@@ -1839,6 +1839,11 @@ let autoTimer   = null;
 let isDragging  = false;
 let startX      = 0;
 let scrollStart = 0;
+let currentIndex = 0;
+
+const AUTO_MIN_DELAY = 6500;
+const AUTO_MAX_DELAY = 45000;
+const AUTO_MS_PER_CHAR = 70;
 
 // --- mezclar mensajes para que cada visita arranque diferente ---
 function shuffleArray(arr) {
@@ -1854,6 +1859,7 @@ function shuffleArray(arr) {
 function renderCarrusel(data) {
   track.innerHTML = '';
   dotsEl.innerHTML = '';
+  currentIndex = 0;
 
   if (!data || data.length === 0) {
     track.innerHTML = '<div class="carrusel-loading">Sé el primero en dejar un mensaje ✦</div>';
@@ -1873,7 +1879,7 @@ function renderCarrusel(data) {
     // dot
     const dot = document.createElement('div');
     dot.className = 'carrusel-dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => scrollToCard(i));
+    dot.addEventListener('click', () => scrollToCard(Array.from(dotsEl.children).indexOf(dot)));
     dotsEl.appendChild(dot);
   });
 
@@ -1884,17 +1890,26 @@ function renderCarrusel(data) {
 // --- scroll a una tarjeta específica ---
 function scrollToCard(index) {
   const cards = track.querySelectorAll('.msg-card');
-  if (!cards[index]) return;
-  const cardWidth = cards[index].offsetWidth + 16; // gap
-  track.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+  if (!cards.length) return;
+  const boundedIndex = Math.max(0, Math.min(index, cards.length - 1));
+  const targetLeft = cards[boundedIndex].offsetLeft - track.offsetLeft;
+  currentIndex = boundedIndex;
+  track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+  dotsEl.querySelectorAll('.carrusel-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === boundedIndex);
+  });
 }
 
 // --- actualizar dots según scroll ---
 function actualizarDots() {
-  const cards = track.querySelectorAll('.msg-card');
+  const cards = Array.from(track.querySelectorAll('.msg-card'));
   if (!cards.length) return;
-  const cardWidth = cards[0].offsetWidth + 16;
-  const index = Math.round(track.scrollLeft / cardWidth);
+  const index = cards.reduce((closest, card, i) => {
+    const cardLeft = card.offsetLeft - track.offsetLeft;
+    const distance = Math.abs(track.scrollLeft - cardLeft);
+    return distance < closest.distance ? { index: i, distance } : closest;
+  }, { index: 0, distance: Infinity }).index;
+  currentIndex = index;
   dotsEl.querySelectorAll('.carrusel-dot').forEach((d, i) => {
     d.classList.toggle('active', i === index);
   });
@@ -1904,16 +1919,29 @@ track.addEventListener('scroll', actualizarDots);
 
 // --- autoplay ---
 function iniciarAutoplay() {
-  clearInterval(autoTimer);
-  autoTimer = setInterval(() => {
+  clearTimeout(autoTimer);
+  const cards = track.querySelectorAll('.msg-card');
+  if (!cards.length) return;
+  const currentCard = cards[currentIndex] || cards[0];
+  const chars = (currentCard.querySelector('.msg-text')?.textContent || '').trim().length;
+  const delay = Math.min(AUTO_MAX_DELAY, Math.max(AUTO_MIN_DELAY, chars * AUTO_MS_PER_CHAR));
+
+  autoTimer = setTimeout(() => {
     if (isDragging) return;
     const cards = track.querySelectorAll('.msg-card');
     if (!cards.length) return;
-    const cardWidth = cards[0].offsetWidth + 16;
-    const maxScroll = track.scrollWidth - track.clientWidth;
-    const next = track.scrollLeft + cardWidth;
-    track.scrollTo({ left: next > maxScroll + 10 ? 0 : next, behavior: 'smooth' });
-  }, 4000);
+    actualizarDots();
+
+    let nextIndex = currentIndex;
+    if (cards.length > 1) {
+      while (nextIndex === currentIndex) {
+        nextIndex = Math.floor(Math.random() * cards.length);
+      }
+    }
+
+    scrollToCard(nextIndex);
+    iniciarAutoplay();
+  }, delay);
 }
 
 // --- drag con mouse (desktop) ---
@@ -1922,7 +1950,7 @@ track.addEventListener('mousedown', e => {
   startX = e.pageX;
   scrollStart = track.scrollLeft;
   track.style.cursor = 'grabbing';
-  clearInterval(autoTimer);
+  clearTimeout(autoTimer);
 });
 window.addEventListener('mousemove', e => {
   if (!isDragging) return;
@@ -1940,7 +1968,7 @@ window.addEventListener('mouseup', () => {
 track.addEventListener('touchstart', e => {
   startX = e.touches[0].pageX;
   scrollStart = track.scrollLeft;
-  clearInterval(autoTimer);
+  clearTimeout(autoTimer);
 }, { passive: true });
 track.addEventListener('touchend', () => {
   actualizarDots();
@@ -1970,7 +1998,7 @@ function prependMensaje(nombre, mensaje) {
   // agregar dot
   const dot = document.createElement('div');
   dot.className = 'carrusel-dot';
-  dot.addEventListener('click', () => scrollToCard(0));
+  dot.addEventListener('click', () => scrollToCard(Array.from(dotsEl.children).indexOf(dot)));
   if (dotsEl.firstChild) {
     dotsEl.insertBefore(dot, dotsEl.firstChild);
   } else {
@@ -1987,6 +2015,7 @@ function prependMensaje(nombre, mensaje) {
 
   track.scrollTo({ left: 0, behavior: 'smooth' });
   actualizarDots();
+  iniciarAutoplay();
 }
 
 // --- helper ---
