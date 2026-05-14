@@ -657,6 +657,8 @@ body {
   scrollbar-width: none;
   cursor: grab;
   transition: none;
+  touch-action: pan-y;
+  overscroll-behavior-x: contain;
 }
 .carrusel-track:active { cursor: grabbing; }
 .carrusel-track::-webkit-scrollbar { display: none; }
@@ -1840,10 +1842,13 @@ let isDragging  = false;
 let startX      = 0;
 let scrollStart = 0;
 let currentIndex = 0;
+let dragStartIndex = 0;
+let dragDeltaX = 0;
 
 const AUTO_MIN_DELAY = 6500;
 const AUTO_MAX_DELAY = 45000;
 const AUTO_MS_PER_CHAR = 70;
+const SWIPE_THRESHOLD = 35;
 
 // --- mezclar mensajes para que cada visita arranque diferente ---
 function shuffleArray(arr) {
@@ -1891,7 +1896,7 @@ function renderCarrusel(data) {
 function scrollToCard(index) {
   const cards = track.querySelectorAll('.msg-card');
   if (!cards.length) return;
-  const boundedIndex = Math.max(0, Math.min(index, cards.length - 1));
+  const boundedIndex = ((index % cards.length) + cards.length) % cards.length;
   const targetLeft = cards[boundedIndex].offsetLeft - track.offsetLeft;
   currentIndex = boundedIndex;
   track.scrollTo({ left: targetLeft, behavior: 'smooth' });
@@ -1900,15 +1905,21 @@ function scrollToCard(index) {
   });
 }
 
-// --- actualizar dots según scroll ---
-function actualizarDots() {
+function getClosestCardIndex() {
   const cards = Array.from(track.querySelectorAll('.msg-card'));
-  if (!cards.length) return;
-  const index = cards.reduce((closest, card, i) => {
+  if (!cards.length) return 0;
+  return cards.reduce((closest, card, i) => {
     const cardLeft = card.offsetLeft - track.offsetLeft;
     const distance = Math.abs(track.scrollLeft - cardLeft);
     return distance < closest.distance ? { index: i, distance } : closest;
   }, { index: 0, distance: Infinity }).index;
+}
+
+// --- actualizar dots según scroll ---
+function actualizarDots() {
+  const cards = track.querySelectorAll('.msg-card');
+  if (!cards.length) return;
+  const index = getClosestCardIndex();
   currentIndex = index;
   dotsEl.querySelectorAll('.carrusel-dot').forEach((d, i) => {
     d.classList.toggle('active', i === index);
@@ -1944,36 +1955,70 @@ function iniciarAutoplay() {
   }, delay);
 }
 
-// --- drag con mouse (desktop) ---
-track.addEventListener('mousedown', e => {
+// --- swipe / drag circular ---
+function startCarruselDrag(e) {
+  if (isDragging) return;
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  actualizarDots();
   isDragging = true;
-  startX = e.pageX;
+  startX = e.clientX;
   scrollStart = track.scrollLeft;
+  dragStartIndex = currentIndex;
+  dragDeltaX = 0;
   track.style.cursor = 'grabbing';
   clearTimeout(autoTimer);
-});
-window.addEventListener('mousemove', e => {
+  track.setPointerCapture?.(e.pointerId);
+}
+
+function moveCarruselDrag(e) {
   if (!isDragging) return;
-  track.scrollLeft = scrollStart - (e.pageX - startX);
-});
-window.addEventListener('mouseup', () => {
+  dragDeltaX = e.clientX - startX;
+  if (Math.abs(dragDeltaX) > 6) e.preventDefault();
+  track.scrollLeft = scrollStart - dragDeltaX;
+}
+
+function endCarruselDrag(e) {
   if (!isDragging) return;
   isDragging = false;
   track.style.cursor = 'grab';
-  actualizarDots();
-  iniciarAutoplay();
-});
+  if (e.pointerId !== undefined) track.releasePointerCapture?.(e.pointerId);
 
-// --- touch (mobile) ---
+  if (dragDeltaX < -SWIPE_THRESHOLD) {
+    scrollToCard(dragStartIndex + 1);
+  } else if (dragDeltaX > SWIPE_THRESHOLD) {
+    scrollToCard(dragStartIndex - 1);
+  } else {
+    scrollToCard(getClosestCardIndex());
+  }
+
+  iniciarAutoplay();
+}
+
+track.addEventListener('pointerdown', startCarruselDrag);
+track.addEventListener('pointermove', moveCarruselDrag);
+track.addEventListener('pointerup', endCarruselDrag);
+track.addEventListener('pointercancel', endCarruselDrag);
+
 track.addEventListener('touchstart', e => {
-  startX = e.touches[0].pageX;
+  if (isDragging || !e.touches.length) return;
+  actualizarDots();
+  isDragging = true;
+  startX = e.touches[0].clientX;
   scrollStart = track.scrollLeft;
+  dragStartIndex = currentIndex;
+  dragDeltaX = 0;
+  track.style.cursor = 'grabbing';
   clearTimeout(autoTimer);
 }, { passive: true });
-track.addEventListener('touchend', () => {
-  actualizarDots();
-  iniciarAutoplay();
-}, { passive: true });
+
+track.addEventListener('touchmove', e => {
+  if (!isDragging || !e.touches.length) return;
+  dragDeltaX = e.touches[0].clientX - startX;
+  if (Math.abs(dragDeltaX) > 6) e.preventDefault();
+  track.scrollLeft = scrollStart - dragDeltaX;
+}, { passive: false });
+
+track.addEventListener('touchend', () => endCarruselDrag({}), { passive: true });
 
 // --- agregar una tarjeta nueva al inicio sin recargar todo ---
 function prependMensaje(nombre, mensaje) {
